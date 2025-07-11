@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "191811086736",
+    "firebase_url": "https://whattodo-22c2d-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "whattodo-22c2d",
+    "storage_bucket": "whattodo-22c2d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191811086736:android:3dbb3beae612145db4eb15",
+        "android_client_info": {
+          "package_name": "wi.exest.whattodo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-YC1EAEc_l5bIV9o-b6kFIRW1T49qWT0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
