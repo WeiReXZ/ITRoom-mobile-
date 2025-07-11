@@ -1,14 +1,18 @@
 package wi.exest.whattodo;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.Manifest;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
@@ -21,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
 
     private AutoCompleteTextView moodAutoComplete;
     private TextInputEditText timeInput, budgetInput, peopleInput;
@@ -34,18 +39,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Инициализация Firebase
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        // Привязка элементов
         initViews();
 
-        // Настройка выпадающего списка настроений
         setupMoodSpinner();
 
-        // Проверка авторизации
         checkAuth();
+
+        checkLocationPermission();
+
     }
 
     private void initViews() {
@@ -56,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
         btnRecommend = findViewById(R.id.btnRecommend);
 
 
-        // Установка подсказки для времени в часах
-        timeInput.setHint("Доступное время (часы)");
 
         btnRecommend.setOnClickListener(v -> getRecommendations());
     }
@@ -86,14 +88,12 @@ public class MainActivity extends AppCompatActivity {
         String budgetStr = budgetInput.getText().toString();
         String peopleStr = peopleInput.getText().toString();
 
-        // Валидация ввода
         if (mood.isEmpty() || timeStr.isEmpty() || budgetStr.isEmpty() || peopleStr.isEmpty()) {
             Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show();
             return;
         }
 
         try {
-            // Конвертация часов в минуты для внутренней логики
             int hours = Integer.parseInt(timeStr);
             int minutes = hours * 60; // Переводим часы в минуты
             double budget = Double.parseDouble(budgetStr);
@@ -104,10 +104,8 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            // Сохраняем историю поиска
             saveSearchHistory(mood, hours, budget, people);
 
-            // Переход к рекомендациям
             Intent intent = new Intent(this, RecommendationActivity.class);
             intent.putExtra("mood", mood);
             intent.putExtra("time", minutes); // Передаем в минутах
@@ -134,6 +132,45 @@ public class MainActivity extends AppCompatActivity {
                     .document(user.getUid())
                     .collection("history")
                     .add(search);
+        }
+    }
+
+    private void checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                Toast.makeText(this,
+                        "Доступ к местоположению нужен для персонализированных рекомендаций",
+                        Toast.LENGTH_LONG).show();
+            }
+
+                ActivityCompat.requestPermissions(this,
+                    new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                    },
+                    LOCATION_PERMISSION_REQUEST_CODE);
+        }
+        // Если разрешение уже есть ничего не делаем
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Доступ к местоположению разрешен", Toast.LENGTH_SHORT).show();
+            } else {
+                // Пользователь отказал
+                Toast.makeText(this,
+                        "Некоторые функции могут работать ограниченно без доступа к местоположению",
+                        Toast.LENGTH_LONG).show();
+            }
         }
     }
 }
