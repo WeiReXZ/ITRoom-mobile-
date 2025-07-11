@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#B9F6CA"
+    android:padding="24dp"
+    tools:context=".MainActivity">
+
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="WhatToDo?"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/montserrat_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo" />
+
+    <!-- Карточка с формой -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        app:layout_constraintTop_toBottomOf="@id/title">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Погода и местоположение -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <ImageView
+                    android:id="@+id/weatherIcon"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_sunny" />
+
+                <TextView
+                    android:id="@+id/locationText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Москва, 25°C"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/montserrat_medium" />
+            </LinearLayout>
+
+            <!-- Настроение -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/moodLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Настроение"
+                app:boxStrokeColor="@color/purple_500"
+                app:endIconMode="dropdown_menu">
+
+                <AutoCompleteTextView
+                    android:id="@+id/moodAutoComplete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:fontFamily="@font/montserrat_light" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Доступное время -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/timeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Доступное время (часы)"
+                app:boxStrokeColor="@color/purple_500"
+                app:startIconDrawable="@drawable/ic_time">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/timeInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:fontFamily="@font/montserrat_light" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Бюджет -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/budgetLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Бюджет (руб)"
+                app:boxStrokeColor="@color/purple_500"
+                app:startIconDrawable="@drawable/ic_money">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/budgetInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:fontFamily="@font/montserrat_light" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Количество людей -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/peopleLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:hint="Количество людей"
+                app:boxStrokeColor="@color/purple_500"
+                app:startIconDrawable="@drawable/ic_people">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/peopleInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:fontFamily="@font/montserrat_light" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Кнопка поиска -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRecommend"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Найти активности"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/purple_500"
+                android:fontFamily="@font/montserrat_medium"
+                app:cornerRadius="12dp"
+                app:icon="@drawable/ic_search"
+                app:iconTint="@color/white" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

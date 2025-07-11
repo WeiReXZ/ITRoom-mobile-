@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">WhatToDo</string>
+
+    <string-array name="moods">
+        <item>Веселое</item>
+        <item>Грустное</item>
+        <item>Нейтральное</item>
+        <item>Романтическое</item>
+        <item>Активное</item>
+    </string-array>
+
+</resources>
